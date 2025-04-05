@@ -7,6 +7,7 @@
 }
 
 .footerContainer > a {
+  font-size: 1.4rem;
   color: var(--text-muted);
   text-decoration: none;
 }
