@@ -27,7 +27,7 @@ export function MainForm() {
       </div>
 
       <div className={styles.formRow}>
-        <Button icon={<PlayCircleIcon />} color='green' />
+        <Button type='button' icon={<PlayCircleIcon />} color='green' />
         {/* <Button icon={<StopCircleIcon />} color='red' /> */}
       </div>
     </form>
