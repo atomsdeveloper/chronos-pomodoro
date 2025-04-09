@@ -10,15 +10,19 @@ import { Cycles } from '../Cycles';
 import { Input } from '../Input';
 import { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { getNextCycle } from '../../utils/getNextCycle';
 
 export function MainForm() {
-  const { setState } = useTaskContext();
+  const { state, setState } = useTaskContext();
 
   // Input controlado com atualização em tempo real causando re-renderização do componente a cada interação com o input.
   // const [taskValue, setTaskValue] = useState<string>('');
 
   // Input não controlado com atulização do componente sem causar re-rederizações.
   const taskRef = useRef<HTMLInputElement>(null);
+
+  // Pegando o próximo ciclo.
+  const nextCycle = getNextCycle(state.currentCycle);
 
   // Função que cria uma nova tarefa ao enviar o formulário.
   function handleStartTask(event: React.FormEvent<HTMLFormElement>) {
@@ -47,10 +51,10 @@ export function MainForm() {
       return {
         ...prevState,
         tasks: [...prevState.tasks, taskToAdd],
-        secondsRemaining,
-        formattedSecondsRemaining: '',
+        secondsRemaining, // Set
+        formattedSecondsRemaining: '00:00', // Set
         activeTask: taskToAdd,
-        currentCycle: 1,
+        currentCycle: nextCycle, // Set
         config: {
           ...prevState.config,
         },
