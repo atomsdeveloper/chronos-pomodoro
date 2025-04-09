@@ -1,3 +1,6 @@
+// import { useState } from 'react';
+import { useRef } from 'react';
+
 import styles from './sytles.module.css';
 
 import { PlayCircleIcon } from 'lucide-react';
@@ -5,16 +8,67 @@ import { PlayCircleIcon } from 'lucide-react';
 import { Button } from '../Button';
 import { Cycles } from '../Cycles';
 import { Input } from '../Input';
+import { TaskModel } from '../../models/TaskModel';
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 export function MainForm() {
+  const { setState } = useTaskContext();
+
+  // Input controlado com atualização em tempo real causando re-renderização do componente a cada interação com o input.
+  // const [taskValue, setTaskValue] = useState<string>('');
+
+  // Input não controlado com atulização do componente sem causar re-rederizações.
+  const taskRef = useRef<HTMLInputElement>(null);
+
+  // Função que cria uma nova tarefa ao enviar o formulário.
+  function handleStartTask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!taskRef.current) return;
+    const task = taskRef.current.value.trim();
+
+    if (!task) {
+      alert('É preciso preencher o campo task.');
+    }
+
+    const taskToAdd: TaskModel = {
+      id: Date.now().toString(),
+      name: task,
+      duration: 1,
+      startDate: Date.now(),
+      completeDate: null,
+      interruptDate: null,
+      type: 'workCicle',
+    };
+
+    const secondsRemaining = taskToAdd.duration * 60;
+
+    setState(prevState => {
+      return {
+        ...prevState,
+        tasks: [...prevState.tasks, taskToAdd],
+        secondsRemaining,
+        formattedSecondsRemaining: '',
+        activeTask: taskToAdd,
+        currentCycle: 1,
+        config: {
+          ...prevState.config,
+        },
+      };
+    });
+  }
+
   return (
-    <form className={styles.formContainer} action=''>
+    <form className={styles.formContainer} action='' onSubmit={handleStartTask}>
       <div className={styles.formRow}>
         <Input
           id='input'
           label='Task'
           type='text'
           title='Descrição da tarefa'
+          ref={taskRef}
+          // value={taskValue}
+          // onChange={event => setTaskValue(event.target.value)}
         />
       </div>
 
