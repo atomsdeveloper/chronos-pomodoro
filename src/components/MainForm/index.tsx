@@ -14,7 +14,7 @@ import { TaskModel } from '../../models/TaskModel';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 import { getNextCycle } from '../../utils/getNextCycle';
-import { getNextCycleType } from '../../utils/getNextCycletype';
+import { getNextCycleType } from '../../utils/getNextCycleType';
 
 export function MainForm() {
   const { state, setState } = useTaskContext();
