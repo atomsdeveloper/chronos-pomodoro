@@ -8,9 +8,13 @@ import { PlayCircleIcon } from 'lucide-react';
 import { Button } from '../Button';
 import { Cycles } from '../Cycles';
 import { Input } from '../Input';
+
 import { TaskModel } from '../../models/TaskModel';
+
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+
 import { getNextCycle } from '../../utils/getNextCycle';
+import { getNextCycleType } from '../../utils/getNextCycletype';
 
 export function MainForm() {
   const { state, setState } = useTaskContext();
@@ -23,6 +27,8 @@ export function MainForm() {
 
   // Pegando o próximo ciclo.
   const nextCycle = getNextCycle(state.currentCycle);
+  // Pegando o tipo do próximo ciclo.
+  const nextCycleType = getNextCycleType(nextCycle);
 
   // Função que cria uma nova tarefa ao enviar o formulário.
   function handleStartTask(event: React.FormEvent<HTMLFormElement>) {
@@ -42,7 +48,7 @@ export function MainForm() {
       startDate: Date.now(),
       completeDate: null,
       interruptDate: null,
-      type: 'workCicle',
+      type: nextCycleType,
     };
 
     const secondsRemaining = taskToAdd.duration * 60;
