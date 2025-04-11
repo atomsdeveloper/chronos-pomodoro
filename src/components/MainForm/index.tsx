@@ -95,9 +95,12 @@ export function MainForm() {
         <p>Lorem ipsum dolor sit amet.</p>
       </div>
 
-      <div className={styles.formRow}>
-        <Cycles />
-      </div>
+      {/* Mostrando os ciclos somente se existir ao menos um ciclo. */}
+      {state.currentCycle > 0 && (
+        <div className={styles.formRow}>
+          <Cycles />
+        </div>
+      )}
 
       <div className={styles.formRow}>
         <Button type='button' icon={<PlayCircleIcon />} color='green' />

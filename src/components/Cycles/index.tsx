@@ -6,8 +6,10 @@ import styles from './styles.module.css';
 export function Cycles() {
   const { state } = useTaskContext();
 
+  // Criando um array com o comprimento de ciclos existentes.
   const cycleType = Array.from({ length: state.currentCycle }); // 8
 
+  // Condição para o atribuir o título do ciclo de acordo com o ciclo atual.
   const nameCycleType = {
     workCycle: 'work',
     breakShortCycle: 'descanso curto',
