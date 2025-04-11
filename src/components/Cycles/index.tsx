@@ -11,7 +11,7 @@ export function Cycles() {
 
   // Condição para o atribuir o título do ciclo de acordo com o ciclo atual.
   const nameCycleType = {
-    workCycle: 'work',
+    workCycle: 'work focus',
     breakShortCycle: 'descanso curto',
     breakLongCycle: 'descanso longo',
   };
