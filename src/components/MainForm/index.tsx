@@ -1,20 +1,27 @@
 // import { useState } from 'react';
 import { useRef } from 'react';
 
+// Styles
 import styles from './sytles.module.css';
 
+// Icons
 import { PlayCircleIcon } from 'lucide-react';
 
+// Components
 import { Button } from '../Button';
 import { Cycles } from '../Cycles';
 import { Input } from '../Input';
 
+// Types
 import { TaskModel } from '../../models/TaskModel';
 
+// Context
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
+// Utils
 import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
+import { formatSecondsToMinutes } from '../../utils/formatSecondsToMinutes';
 
 export function MainForm() {
   const { state, setState } = useTaskContext();
@@ -57,10 +64,10 @@ export function MainForm() {
       return {
         ...prevState,
         tasks: [...prevState.tasks, taskToAdd],
-        secondsRemaining, // Set
-        formattedSecondsRemaining: '00:00', // Set
+        secondsRemaining,
+        formattedSecondsRemaining: formatSecondsToMinutes(secondsRemaining),
         activeTask: taskToAdd,
-        currentCycle: nextCycle, // Set
+        currentCycle: nextCycle,
         config: {
           ...prevState.config,
         },
