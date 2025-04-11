@@ -75,6 +75,8 @@ export function MainForm() {
         },
       };
     });
+
+    taskRef.current.value = '';
   }
 
   return (
@@ -86,6 +88,7 @@ export function MainForm() {
           type='text'
           title='Descrição da tarefa'
           ref={taskRef}
+          disabled={!!state.activeTask}
           // value={taskValue}
           // onChange={event => setTaskValue(event.target.value)}
         />
@@ -103,7 +106,7 @@ export function MainForm() {
       )}
 
       <div className={styles.formRow}>
-        <Button type='button' icon={<PlayCircleIcon />} color='green' />
+        <Button type='submit' icon={<PlayCircleIcon />} color='green' />
         {/* <Button icon={<StopCircleIcon />} color='red' /> */}
       </div>
     </form>
