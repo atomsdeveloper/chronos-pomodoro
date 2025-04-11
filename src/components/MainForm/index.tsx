@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import styles from './sytles.module.css';
 
 // Icons
-import { PlayCircleIcon } from 'lucide-react';
+import { PlayCircleIcon, StopCircleIcon } from 'lucide-react';
 
 // Components
 import { Button } from '../Button';
@@ -106,8 +106,23 @@ export function MainForm() {
       )}
 
       <div className={styles.formRow}>
-        <Button type='submit' icon={<PlayCircleIcon />} color='green' />
-        {/* <Button icon={<StopCircleIcon />} color='red' /> */}
+        {!state.activeTask ? (
+          <Button
+            type='submit'
+            icon={<PlayCircleIcon />}
+            color='green'
+            aria-label='Botão para Iniciar Tarefa'
+            title='Iniciar Tarefa'
+          />
+        ) : (
+          <Button
+            type='button'
+            icon={<StopCircleIcon />}
+            color='red'
+            aria-label='Botão para Parar Tarefa'
+            title='Parar Tarefa'
+          />
+        )}
       </div>
     </form>
   );
