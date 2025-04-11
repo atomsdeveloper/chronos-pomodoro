@@ -1,19 +1,39 @@
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { getNextCycle } from '../../utils/getNextCycle';
+import { getNextCycleType } from '../../utils/getNextCycleType';
 import styles from './styles.module.css';
 
 export function Cycles() {
+  const { state } = useTaskContext();
+
+  const cycleType = Array.from({ length: state.currentCycle }); // 8
+
+  const nameCycleType = {
+    workCycle: 'work',
+    breakShortCycle: 'descanso curto',
+    breakLongCycle: 'descanso longo',
+  };
+
   return (
     <div className={styles.cyclesContainer}>
       <span>Ciclos:</span>
 
       <div className={styles.cyclesDots}>
-        <span className={`${styles.cycleDot} ${styles.workCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.breakShortCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.workCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.breakShortCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.workCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.breakShortCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.workCicle}`}></span>
-        <span className={`${styles.cycleDot} ${styles.breakLongCicle}`}></span>
+        {cycleType.map((_, index) => {
+          // Pegando o próximo ciclo.
+          const nextCycle = getNextCycle(index);
+          // Pegando o tipo do próximo ciclo.
+          const nextCycleType = getNextCycleType(nextCycle);
+
+          return (
+            <span
+              key={nextCycleType}
+              className={`${styles.cycleDot} ${styles[nextCycleType]}`}
+              aria-label='Marcação para o tipo de tarefa atual.'
+              title={`${nameCycleType[nextCycleType]}`}
+            ></span>
+          );
+        })}
       </div>
     </div>
   );

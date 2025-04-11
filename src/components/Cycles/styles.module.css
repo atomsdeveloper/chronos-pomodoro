@@ -18,14 +18,14 @@
   border-radius: 50%;
 }
 
-.workCicle {
+.workCycle {
   background: var(--warning);
 }
 
-.breakShortCicle {
+.breakShortCycle {
   background: var(--primary);
 }
 
-.breakLongCicle {
+.breakLongCycle {
   background: var(--info);
 }
