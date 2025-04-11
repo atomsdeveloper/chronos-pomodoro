@@ -48,6 +48,7 @@ export function MainForm() {
       alert('É preciso preencher o campo task.');
     }
 
+    // Task que será criada e jogada para dentro do array de Tasks no setState.
     const taskToAdd: TaskModel = {
       id: Date.now().toString(),
       name: task,
@@ -60,6 +61,7 @@ export function MainForm() {
 
     const secondsRemaining = taskToAdd.duration * 60;
 
+    // Setando o objeto dentro de state.
     setState(prevState => {
       return {
         ...prevState,
