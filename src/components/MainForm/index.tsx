@@ -91,6 +91,14 @@ export function MainForm() {
         secondsRemaining: 0,
         formattedSecondsRemaining: '00:00',
         activeTask: null,
+        // Verificando se a task ativa é a mesma task que foi parada, se sim, adicionar a data que foi feita a parada da task.
+        tasks: prevState.tasks.map(task => {
+          if (prevState.activeTask && prevState.activeTask?.id === task.id) {
+            return { ...task, interruptDate: Date.now() };
+          }
+
+          return task;
+        }),
       };
     });
   }
