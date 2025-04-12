@@ -46,6 +46,7 @@ export function MainForm() {
 
     if (!task) {
       alert('É preciso preencher o campo task.');
+      return;
     }
 
     // Task que será criada e jogada para dentro do array de Tasks no setState.
@@ -61,7 +62,7 @@ export function MainForm() {
 
     const secondsRemaining = taskToAdd.duration * 60;
 
-    // Setando o objeto dentro de state.
+    // Setando o objeto dentro de state para iniciar task.
     setState(prevState => {
       return {
         ...prevState,
@@ -77,6 +78,21 @@ export function MainForm() {
     });
 
     taskRef.current.value = '';
+  }
+
+  // Setando o objeto dentro de state para parar task.
+  function handleStopTask(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) {
+    event.preventDefault();
+    setState(prevState => {
+      return {
+        ...prevState,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+        activeTask: null,
+      };
+    });
   }
 
   return (
@@ -108,6 +124,7 @@ export function MainForm() {
       <div className={styles.formRow}>
         {!state.activeTask ? (
           <Button
+            key='start'
             type='submit'
             icon={<PlayCircleIcon />}
             color='green'
@@ -116,11 +133,13 @@ export function MainForm() {
           />
         ) : (
           <Button
+            key='stop'
             type='button'
             icon={<StopCircleIcon />}
             color='red'
             aria-label='Botão para Parar Tarefa'
             title='Parar Tarefa'
+            onClick={event => handleStopTask(event)}
           />
         )}
       </div>
