@@ -21,10 +21,12 @@ import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 // Utils
 import { getNextCycle } from '../../utils/getNextCycle';
 import { getNextCycleType } from '../../utils/getNextCycleType';
-import { formatSecondsToMinutes } from '../../utils/formatSecondsToMinutes';
+
+// Type Actions Reducer
+import { TaskActionType } from '../../contexts/TaskContext/taskAction';
 
 export function MainForm() {
-  const { state, setState } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
 
   // Input controlado com atualização em tempo real causando re-renderização do componente a cada interação com o input.
   // const [taskValue, setTaskValue] = useState<string>('');
@@ -60,22 +62,8 @@ export function MainForm() {
       type: nextCycleType,
     };
 
-    const secondsRemaining = taskToAdd.duration * 60;
-
     // Setando o objeto dentro de state para iniciar task.
-    setState(prevState => {
-      return {
-        ...prevState,
-        tasks: [...prevState.tasks, taskToAdd],
-        secondsRemaining,
-        formattedSecondsRemaining: formatSecondsToMinutes(secondsRemaining),
-        activeTask: taskToAdd,
-        currentCycle: nextCycle,
-        config: {
-          ...prevState.config,
-        },
-      };
-    });
+    dispatch({ type: TaskActionType.START_TASK, payload: taskToAdd });
 
     taskRef.current.value = '';
   }
@@ -85,23 +73,7 @@ export function MainForm() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.preventDefault();
-    setState(prevState => {
-      return {
-        ...prevState,
-        secondsRemaining: 0,
-        formattedSecondsRemaining: '00:00',
-        activeTask: null,
-        tasks: prevState.tasks.map(task => {
-          // Verificando se a task ativa é a mesma task que foi parada, se sim, adicionar a data que foi feita a parada da task.
-          if (prevState.activeTask && prevState.activeTask?.id === task.id) {
-            return { ...task, interruptDate: Date.now() };
-          }
-
-          // Caso contrário retorna a task normalmente sem alterações.
-          return task;
-        }),
-      };
-    });
+    dispatch({ type: TaskActionType.INTERRUPT_TASK });
   }
 
   return (
