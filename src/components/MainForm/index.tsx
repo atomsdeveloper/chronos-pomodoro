@@ -24,6 +24,7 @@ import { getNextCycleType } from '../../utils/getNextCycleType';
 
 // Type Actions Reducer
 import { TaskActionType } from '../../contexts/TaskContext/taskAction';
+import { Tips } from '../Tips';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -64,8 +65,6 @@ export function MainForm() {
 
     // Setando o objeto dentro de state para iniciar task.
     dispatch({ type: TaskActionType.START_TASK, payload: taskToAdd });
-
-    taskRef.current.value = '';
   }
 
   // Setando o objeto dentro de state para parar task.
@@ -92,7 +91,7 @@ export function MainForm() {
       </div>
 
       <div className={styles.formRow}>
-        <p>Lorem ipsum dolor sit amet.</p>
+        <Tips />
       </div>
 
       {/* Mostrando os ciclos somente se existir ao menos um ciclo. */}
