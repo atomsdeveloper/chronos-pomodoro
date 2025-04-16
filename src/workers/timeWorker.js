@@ -10,14 +10,16 @@ self.onmessage = function (event) {
   const { activeTask, secondsRemaining } = state;
 
   // Contagem em segundos com cálculo para saber o fim da task.
-  const endDate = activeTask.startDate - secondsRemaining * 1000;
+  const endDate = activeTask.startDate + secondsRemaining * 1000;
+  const now = Date.now(); // Data atual.
+  let countDownSeconds = Math.ceil((endDate - now) / 1000);
 
   function tick() {
-    const now = new Date.now(); // Data atual.
-    const countDownSeconds = Math.floor((endDate - now) / 1000);
-
     // Enviando de volta a mensagem que é recebida na função 'onmessage' do worker class.
     self.postMessage(countDownSeconds);
+
+    const now = Date.now(); // Data atual.
+    countDownSeconds = Math.floor((endDate - now) / 1000);
 
     setTimeout(tick, 1000);
   }

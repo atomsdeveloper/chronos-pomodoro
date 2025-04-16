@@ -24,13 +24,13 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
     const CountDownSeconds = event.data;
 
     // Verifica se a contagem feita dentro do Worker chegou a zero e termina caso contrário atualiza o estado com a contagem.
-    if (CountDownSeconds >= 0) {
+    if (CountDownSeconds <= 0) {
       if (playBeepRef.current) {
         playBeepRef.current();
         playBeepRef.current = null;
       }
 
-      if (playBeepRef) dispatch({ type: TaskActionType.COMPLETE_TASK }); // Completa a tarefa ao terminar.
+      dispatch({ type: TaskActionType.COMPLETE_TASK }); // Completa a tarefa ao terminar.
 
       worker.terminate();
     } else {
@@ -61,7 +61,7 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
       console.log(`Zerando o aúdio...`);
       playBeepRef.current = null;
     }
-  }, [worker, state]);
+  }, [state.activeTask]);
 
   return (
     <TaskContext.Provider value={{ state, dispatch }}>
