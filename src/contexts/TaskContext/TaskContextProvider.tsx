@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 
 // Context and Reducer
 import { initialTaskState } from './initialTaskState';
@@ -6,12 +6,14 @@ import { TaskContext } from './TaskContext';
 import { taskReducer } from './taskReducer';
 import { TimeWorkerManager } from '../../workers/TimeWorkerManager';
 import { TaskActionType } from './taskAction';
+import { loadBeep } from '../../utils/loadBeep';
 
 type TaskContextProviderTypes = {
   children: React.ReactNode;
 };
 
 export function TaskContextProvider({ children }: TaskContextProviderTypes) {
+  const playBeepRef = useRef<ReturnType<typeof loadBeep> | null>(null);
   const [state, dispatch] = useReducer(taskReducer, initialTaskState);
 
   // Iniciando a instancia do Worker.
@@ -23,7 +25,13 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
 
     // Verifica se a contagem feita dentro do Worker chegou a zero e termina caso contrário atualiza o estado com a contagem.
     if (CountDownSeconds >= 0) {
-      dispatch({ type: TaskActionType.COMPLETE_TASK }); // Completa a tarefa ao terminar.
+      if (playBeepRef.current) {
+        playBeepRef.current();
+        playBeepRef.current = null;
+      }
+
+      if (playBeepRef) dispatch({ type: TaskActionType.COMPLETE_TASK }); // Completa a tarefa ao terminar.
+
       worker.terminate();
     } else {
       dispatch({
@@ -43,6 +51,16 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
     }
     // Caso contrário o envio o state para dentro do worker.
     return worker.postMessage(state);
+  }, [worker, state]);
+
+  useEffect(() => {
+    if (state.activeTask && playBeepRef.current === null) {
+      console.log(`Carregando o áudio.`);
+      playBeepRef.current = loadBeep();
+    } else {
+      console.log(`Zerando o aúdio...`);
+      playBeepRef.current = null;
+    }
   }, [worker, state]);
 
   return (
