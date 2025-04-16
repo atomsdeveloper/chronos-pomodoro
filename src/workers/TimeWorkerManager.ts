@@ -1,10 +1,10 @@
-// Classe criada para gerenciamento do Worker
+// Classe criada para gerenciamento do Worker e evita multiplos Workes rodando desnecessariamente.
 let instance: TimeWorkerManager | null = null;
 
 export class TimeWorkerManager {
   private worker: Worker; // Worker do tipo Worker com atributo privado.
 
-  // Ao usar um contructor com private estamos usando o padrão de projeto Singleton
+  // Usando um contructor com private estamos usando o padrão de projeto Singleton para impedir o uso de 'new' diretamente na instancia.
   private constructor() {
     // Maneira de construir o Worker baseado na url do arquivo.
     this.worker = new Worker(new URL('./timeWorker.js', import.meta.url));
@@ -19,7 +19,7 @@ export class TimeWorkerManager {
     return instance;
   }
 
-  // Método criado para postar uma mensagem para fora do Worker.
+  // Método criado para postar uma mensagem para fora da Instancia Worker -> 'TimeWorkerManager'.
   postMessage(event: unknown) {
     return this.worker.postMessage(event);
   }
