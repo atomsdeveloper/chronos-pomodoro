@@ -1,3 +1,5 @@
+import { TaskStateModel } from '../models/TaskStateModel';
+
 // Classe criada para gerenciamento do Worker e evita multiplos Workes rodando desnecessariamente.
 let instance: TimeWorkerManager | null = null;
 
@@ -20,7 +22,7 @@ export class TimeWorkerManager {
   }
 
   // Método criado para postar uma mensagem para fora da Instancia Worker -> 'TimeWorkerManager'.
-  postMessage(event: unknown) {
+  postMessage(event: TaskStateModel) {
     return this.worker.postMessage(event);
   }
 

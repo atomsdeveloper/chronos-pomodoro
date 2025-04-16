@@ -5,6 +5,7 @@ import { initialTaskState } from './initialTaskState';
 import { TaskContext } from './TaskContext';
 import { taskReducer } from './taskReducer';
 import { TimeWorkerManager } from '../../workers/TimeWorkerManager';
+import { TaskActionType } from './taskAction';
 
 type TaskContextProviderTypes = {
   children: React.ReactNode;
@@ -20,10 +21,15 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
   worker.onmessage(event => {
     const CountDownSeconds = event.data;
 
-    // Verifica se a contagem feita dentro do Worker chegou a zero e termina.
+    // Verifica se a contagem feita dentro do Worker chegou a zero e termina caso contrário atualiza o estado com a contagem.
     if (CountDownSeconds >= 0) {
-      console.log('worker completed');
+      dispatch({ type: TaskActionType.COMPLETE_TASK }); // Completa a tarefa ao terminar.
       worker.terminate();
+    } else {
+      dispatch({
+        type: TaskActionType.COUNT_DOWN,
+        payload: { secondsRemmaning: CountDownSeconds },
+      });
     }
   });
 

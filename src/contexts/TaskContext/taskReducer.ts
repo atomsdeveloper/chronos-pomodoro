@@ -45,8 +45,36 @@ export function taskReducer(
     case TaskActionType.RESET_STATE: {
       return state;
     }
-  }
+    // Criado com Worker para atualiza estado de contagem.
+    case TaskActionType.COUNT_DOWN: {
+      return {
+        ...state,
+        secondsRemaining: action.payload.secondsRemmaning,
+        formattedSecondsRemaining: formatSecondsToMinutes(
+          action.payload.secondsRemmaning,
+        ),
+      };
+    }
+    case TaskActionType.COMPLETE_TASK:
+      {
+        return {
+          ...state,
+          secondsRemaining: 0,
+          formattedSecondsRemaining: '00:00',
+          activeTask: null,
+          tasks: state.tasks.map(task => {
+            // Verificando se a task ativa é a mesma task que foi concluida, se sim, adicionar a data que foi feita a conclusão da task.
+            if (state.activeTask && state.activeTask?.id === task.id) {
+              return { ...task, completeDate: Date.now() };
+            }
 
-  // Sempre retornar o estado.
-  return state;
+            // Caso contrário retorna a task normalmente sem alterações.
+            return task;
+          }),
+        };
+      }
+
+      // Sempre retornar o estado.
+      return state;
+  }
 }
