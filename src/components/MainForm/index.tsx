@@ -25,6 +25,7 @@ import { getNextCycleType } from '../../utils/getNextCycleType';
 // Type Actions Reducer
 import { TaskActionType } from '../../contexts/TaskContext/taskAction';
 import { Tips } from '../Tips';
+import { showMessages } from '../../adapters/showMessages';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
@@ -43,12 +44,13 @@ export function MainForm() {
   // Função que cria uma nova tarefa ao enviar o formulário.
   function handleStartTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    showMessages.dismiss();
 
     if (!taskRef.current) return;
     const task = taskRef.current.value.trim();
 
     if (!task) {
-      alert('É preciso preencher o campo task.');
+      showMessages.warn('Dígite o nome da task.');
       return;
     }
 
@@ -63,6 +65,7 @@ export function MainForm() {
       type: nextCycleType,
     };
 
+    showMessages.success('A task foi iniciada.');
     // Setando o objeto dentro de state para iniciar task.
     dispatch({ type: TaskActionType.START_TASK, payload: taskToAdd });
   }
@@ -72,6 +75,7 @@ export function MainForm() {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) {
     event.preventDefault();
+    showMessages.error('A task foi interrompida.');
     dispatch({ type: TaskActionType.INTERRUPT_TASK });
   }
 
