@@ -43,7 +43,8 @@ export function TaskContextProvider({ children }: TaskContextProviderTypes) {
 
   // Emitir resultado do estado na tela sempre que o state mudar.
   useEffect(() => {
-    console.log(state);
+    document.title = `${state.formattedSecondsRemaining} - Chronos Pomodoro`;
+
     // Caso não exista uma tarega ativa é encerrado o worker.
     if (!state.activeTask) {
       console.log(`Worker terminado por falta de Task ativa.`);
