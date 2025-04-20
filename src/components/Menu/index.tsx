@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import styles from './styles.module.css';
+import { LinkRouter } from '../LinkRouter';
 
 type ThemeType = {
   value: 'dark' | 'light';
@@ -51,33 +52,34 @@ export function Menu() {
 
   return (
     <nav className={styles.menuContainer}>
-      <a
+      <LinkRouter
         href='#'
         className={styles.menuLink}
         aria-label='Tela principal da página'
         title='Ir para Home'
       >
         <HomeIcon />
-      </a>
+      </LinkRouter>
 
-      <a
+      <LinkRouter
         href='#'
         className={styles.menuLink}
         aria-label='Tela de histórico das tarefas'
         title='Histórico'
       >
         <HistoryIcon />
-      </a>
+      </LinkRouter>
 
-      <a
+      <LinkRouter
         href='#'
         className={styles.menuLink}
         aria-label='Tela de configurações da página'
         title='Configurações'
       >
         <SettingsIcon />
-      </a>
+      </LinkRouter>
 
+      {/* Não precisa de 'LinkRouter' link a usado apenas para capturar o click do usuário. */}
       <a
         href='#'
         className={styles.menuLink}
