@@ -29,6 +29,7 @@ import { showMessages } from '../../adapters/showMessages';
 
 export function MainForm() {
   const { state, dispatch } = useTaskContext();
+  const lastTaskName = state.tasks[state.tasks.length - 1]?.name || '';
 
   // Input controlado com atualização em tempo real causando re-renderização do componente a cada interação com o input.
   // const [taskValue, setTaskValue] = useState<string>('');
@@ -89,6 +90,7 @@ export function MainForm() {
           title='Descrição da tarefa'
           ref={taskRef}
           disabled={!!state.activeTask}
+          defaultValue={lastTaskName}
           // value={taskValue}
           // onChange={event => setTaskValue(event.target.value)}
         />
