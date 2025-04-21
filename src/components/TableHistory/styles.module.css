@@ -1,0 +1,26 @@
+.container {
+  overflow-x: auto;
+  border-radius: 0.8rem;
+}
+
+.container table {
+  width: 100%;
+  min-width: 64rem;
+  font-size: 1.6rem;
+  border-collapse: collapse;
+}
+
+.container table th {
+  background-color: var(--gray-600);
+}
+
+.container table td {
+  background-color: var(--gray-800);
+}
+
+.container table th,
+.container table td {
+  border-bottom: 0.2rem solid var(--gray-700);
+  text-align: left;
+  padding: 1.6rem;
+}
