@@ -38,7 +38,7 @@ export function Menu() {
   useEffect(() => {
     if (!theme) return;
     document.documentElement.setAttribute('data-theme', theme.value);
-    localStorage.setItem('theme', JSON.stringify(theme));
+    localStorage.setItem('theme', JSON.stringify(theme.value));
 
     return () => {
       console.log('Realizando função de cleanUp.');
@@ -53,7 +53,7 @@ export function Menu() {
   return (
     <nav className={styles.menuContainer}>
       <LinkRouter
-        href='#'
+        href='/'
         className={styles.menuLink}
         aria-label='Tela principal da página'
         title='Ir para Home'
@@ -62,7 +62,7 @@ export function Menu() {
       </LinkRouter>
 
       <LinkRouter
-        href='#'
+        href='/history'
         className={styles.menuLink}
         aria-label='Tela de histórico das tarefas'
         title='Histórico'
@@ -71,7 +71,7 @@ export function Menu() {
       </LinkRouter>
 
       <LinkRouter
-        href='#'
+        href='/settings'
         className={styles.menuLink}
         aria-label='Tela de configurações da página'
         title='Configurações'
