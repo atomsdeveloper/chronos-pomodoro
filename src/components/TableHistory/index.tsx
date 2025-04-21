@@ -1,6 +1,9 @@
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import styles from './styles.module.css';
 
 export function TableHistory() {
+  const { state } = useTaskContext();
+
   return (
     <section className={styles.container}>
       <table>
@@ -14,14 +17,14 @@ export function TableHistory() {
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: 20 }).map((_, index) => {
+          {state.tasks.map(task => {
             return (
-              <tr key={index}>
-                <td>Estudar</td>
-                <td>25min</td>
-                <td>24/01/2025 23:00</td>
-                <td>Concluída</td>
-                <td>Work</td>
+              <tr key={task.id}>
+                <td>{task.name}</td>
+                <td>{task.duration}min</td>
+                <td>{new Date(task.startDate).toISOString()}</td>
+                <td>{task.interruptDate}</td>
+                <td>{task.type}</td>
               </tr>
             );
           })}
