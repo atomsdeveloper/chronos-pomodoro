@@ -1,0 +1,17 @@
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.container button {
+  min-width: auto;
+  margin: 0;
+  padding: 1rem;
+}
+
+.container button svg {
+  width: 2rem;
+  height: 2rem;
+}
