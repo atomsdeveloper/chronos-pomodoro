@@ -5,7 +5,9 @@ export function Footer() {
   return (
     <div className={styles.footerContainer}>
       <LinkRouter href='#'>Entenda o conceito do Pomodoro</LinkRouter>
-      <LinkRouter href='#'>Chronos Pomodoro &copy; Feito com 💚.</LinkRouter>
+      <LinkRouter href='#'>
+        Chronos Pomodoro &copy; Feito com 💚 por Renan Nascimento.
+      </LinkRouter>
     </div>
   );
 }
