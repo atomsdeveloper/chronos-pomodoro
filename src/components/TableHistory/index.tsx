@@ -1,5 +1,8 @@
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+
 import { formatDate } from '../../utils/formatDate';
+import { getTaskStatus } from '../../utils/getTaskStatus';
+
 import styles from './styles.module.css';
 
 export function TableHistory() {
@@ -19,13 +22,18 @@ export function TableHistory() {
         </thead>
         <tbody>
           {state.tasks.map(task => {
+            const taskType = {
+              workCycle: 'Trabalho',
+              breakShortCycle: 'Descanço Curto',
+              breakLongCycle: 'Descanso Longo',
+            };
             return (
               <tr key={task.id}>
                 <td>{task.name}</td>
                 <td>{task.duration}min</td>
                 <td>{formatDate(task.startDate)}</td>
-                <td>{task.interruptDate}</td>
-                <td>{task.type}</td>
+                <td>{getTaskStatus(task, state.activeTask)}</td>
+                <td>{taskType[task.type]}</td>
               </tr>
             );
           })}
