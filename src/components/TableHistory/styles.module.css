@@ -33,3 +33,8 @@
 .thSort:hover {
   filter: brightness(80%);
 }
+
+section p {
+  tex-align: center;
+  font-weight: bold;
+}
