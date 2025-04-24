@@ -40,7 +40,7 @@ export function TableHistory() {
     });
   }
 
-  // Re-renderizar este componente quando tasks mudar alterando os valores de dentro da state de 'tasks'.
+  // Re-renderizar este componente quando tasks mudar alterando os valores de dentro da state 'storedTaskChoise'.
   useEffect(() => {
     setStoredTaskChoise(prevState => {
       return {
