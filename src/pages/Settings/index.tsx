@@ -8,6 +8,7 @@ import { Button } from '../../components/Button';
 import { SaveAllIcon } from 'lucide-react';
 import { useRef } from 'react';
 import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { showMessages } from '../../adapters/showMessages';
 
 export function Settings() {
   const { state } = useTaskContext();
@@ -17,13 +18,47 @@ export function Settings() {
   const breakLongCycleInput = useRef<HTMLInputElement>(null);
 
   function handleSaveSetting(e: React.FormEvent<HTMLFormElement>) {
+    showMessages.dismiss();
     e.preventDefault();
 
-    const workCycleData = workCycleInput.current?.value;
-    const breakShortCycleData = breakShortCycleInput.current?.value;
-    const breakLongCycleData = breakLongCycleInput.current?.value;
+    const workCycleData = Number(workCycleInput.current?.value);
+    const breakShortCycleData = Number(breakShortCycleInput.current?.value);
+    const breakLongCycleData = Number(breakLongCycleInput.current?.value);
+
+    const erroFieldsInput = [];
+
+    if (
+      isNaN(workCycleData) ||
+      isNaN(breakShortCycleData) ||
+      isNaN(breakLongCycleData)
+    ) {
+      erroFieldsInput.push('Dígite apenas NÚMEROS em TODOS os campos.');
+    }
+
+    if (workCycleData < 1 && workCycleData > 60) {
+      erroFieldsInput.push(
+        'Dígite valores entre 1min e 60min para manter o foco.',
+      );
+    }
+    if (breakShortCycleData < 1 && breakShortCycleData > 12) {
+      erroFieldsInput.push(
+        'Dígite valores entre 1min e 12min para descansos curtos.',
+      );
+    }
+    if (breakLongCycleData < 1 && breakLongCycleData > 20) {
+      erroFieldsInput.push(
+        'Dígite valores entre 1min e 20min para descansos longos.',
+      );
+    }
+
+    if (erroFieldsInput.length > 0) {
+      erroFieldsInput.forEach(error => {
+        showMessages.error(error);
+      });
+    }
 
     console.log(workCycleData, breakShortCycleData, breakLongCycleData);
+    console.log('Salvar');
   }
 
   return (
@@ -48,7 +83,7 @@ export function Settings() {
           <Input
             id='workCycle'
             label='Foco'
-            type='text'
+            type='number'
             placeholder=''
             title='Duração do trabalho'
             aria-label='Configuração da duração do tempo de trabalho'
@@ -59,7 +94,7 @@ export function Settings() {
           <Input
             id='breakShortCycle'
             label='Descanso curto'
-            type='text'
+            type='number'
             placeholder=''
             title='Duração do descanso curto'
             aria-label='Configuração da duração do descanso curto'
@@ -70,7 +105,7 @@ export function Settings() {
           <Input
             id='breakLongCycle'
             label='Descanso longo'
-            type='text'
+            type='number'
             placeholder=''
             title='Duração do descanso longo'
             aria-label='Configuração da duração do descanso longo'
