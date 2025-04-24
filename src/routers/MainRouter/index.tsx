@@ -5,6 +5,7 @@ import { Home } from '../../pages/Home';
 import { NotFound } from '../../pages/NotFound';
 import { About } from '../../pages/About';
 import { History } from '../../pages/History';
+import { Settings } from '../../pages/Settings';
 
 // 'pathname' não pode ser capturado antes de ser iniciado um Router, uso dentro de um componente que está dentro do Router.
 // Toda vez que o 'path'/url mudar é executado o scroll to top.
@@ -21,8 +22,9 @@ export function MainRouter() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/about-pomodoro/' element={<About />} />
         <Route path='/history/' element={<History />} />
+        <Route path='/settings/' element={<Settings />} />
+        <Route path='/about-pomodoro/' element={<About />} />
 
         <Route path='*' element={<NotFound />} />
       </Routes>
