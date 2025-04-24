@@ -11,16 +11,19 @@ import {
 import styles from './styles.module.css';
 import { LinkRouter } from '../LinkRouter';
 
-type ThemeType = {
-  value: 'dark' | 'light';
-};
-
 export function Menu() {
-  const [theme, setTheme] = useState<ThemeType>(() => {
-    const storageTheme = localStorage.getItem('theme');
-    if (!storageTheme) return { value: 'dark' };
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    const storageTheme = localStorage.getItem('theme') as
+      | 'dark'
+      | 'light'
+      | null;
 
-    return JSON.parse(storageTheme);
+    if (!storageTheme) {
+      localStorage.setItem('theme', 'dark');
+      return 'dark';
+    }
+
+    return storageTheme;
   });
 
   const handleChangeTheme = (
@@ -29,16 +32,14 @@ export function Menu() {
     event.preventDefault();
 
     setTheme(prevState => {
-      return prevState?.value === 'dark'
-        ? { value: 'light' }
-        : { value: 'dark' };
+      return prevState === 'dark' ? 'light' : 'dark';
     });
   };
 
   useEffect(() => {
     if (!theme) return;
-    document.documentElement.setAttribute('data-theme', theme.value);
-    localStorage.setItem('theme', JSON.stringify(theme.value));
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
 
     return () => {
       console.log('Realizando função de cleanUp.');
@@ -87,7 +88,7 @@ export function Menu() {
         title='Mudar tema'
         onClick={handleChangeTheme}
       >
-        {themeIcon[theme.value]}
+        {themeIcon[theme]}
       </a>
     </nav>
   );
