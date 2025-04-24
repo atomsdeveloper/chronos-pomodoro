@@ -113,7 +113,11 @@ export function TableHistory() {
         </table>
       )}
 
-      {!hasTasks && <p>Não existem tarefas</p>}
+      {!hasTasks && (
+        <p style={{ textAlign: 'center', fontWeight: 'bold' }}>
+          Não existem tarefas
+        </p>
+      )}
     </section>
   );
 }

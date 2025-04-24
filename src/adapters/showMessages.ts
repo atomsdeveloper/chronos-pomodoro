@@ -8,6 +8,7 @@ export const showMessages = {
   error: (msg: string) => toast.error(msg),
   info: (msg: string) => toast.info(msg),
   dismiss: () => toast.dismiss(),
+  // Valores vindos direto do padrão 'toast' que tem sua própria tipagem e métodos.
   confirm: (data: string, onClosing: (confirmation: boolean) => void) =>
     toast(Dialog, {
       data,
