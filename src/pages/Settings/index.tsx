@@ -6,8 +6,26 @@ import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 
 import { SaveAllIcon } from 'lucide-react';
+import { useRef } from 'react';
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 export function Settings() {
+  const { state } = useTaskContext();
+
+  const workCycleInput = useRef<HTMLInputElement>(null);
+  const breakShortCycleInput = useRef<HTMLInputElement>(null);
+  const breakLongCycleInput = useRef<HTMLInputElement>(null);
+
+  function handleSaveSetting(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const workCycleData = workCycleInput.current?.value;
+    const breakShortCycleData = breakShortCycleInput.current?.value;
+    const breakLongCycleData = breakLongCycleInput.current?.value;
+
+    console.log(workCycleData, breakShortCycleData, breakLongCycleData);
+  }
+
   return (
     <MainTemplates>
       <Container>
@@ -20,6 +38,7 @@ export function Settings() {
       <Container>
         <form
           action=''
+          onSubmit={handleSaveSetting}
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -33,6 +52,8 @@ export function Settings() {
             placeholder=''
             title='Duração do trabalho'
             aria-label='Configuração da duração do tempo de trabalho'
+            ref={workCycleInput}
+            defaultValue={state.config.workCycle}
           />
 
           <Input
@@ -42,6 +63,8 @@ export function Settings() {
             placeholder=''
             title='Duração do descanso curto'
             aria-label='Configuração da duração do descanso curto'
+            ref={breakShortCycleInput}
+            defaultValue={state.config.breakShortCycle}
           />
 
           <Input
@@ -51,6 +74,8 @@ export function Settings() {
             placeholder=''
             title='Duração do descanso longo'
             aria-label='Configuração da duração do descanso longo'
+            ref={breakLongCycleInput}
+            defaultValue={state.config.breakLongCycle}
           />
 
           <Container>
