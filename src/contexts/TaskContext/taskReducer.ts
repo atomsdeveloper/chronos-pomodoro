@@ -56,22 +56,32 @@ export function taskReducer(
         ),
       };
     }
-    case TaskActionType.COMPLETE_TASK:
+    case TaskActionType.COMPLETE_TASK: {
+      return {
+        ...state,
+        secondsRemaining: 0,
+        formattedSecondsRemaining: '00:00',
+        activeTask: null,
+        tasks: state.tasks.map(task => {
+          // Verificando se a task ativa é a mesma task que foi concluida, se sim, adicionar a data que foi feita a conclusão da task.
+          if (state.activeTask && state.activeTask?.id === task.id) {
+            return { ...task, completeDate: Date.now() };
+          }
+
+          // Caso contrário retorna a task normalmente sem alterações.
+          return task;
+        }),
+      };
+    }
+    case TaskActionType.CONFIG_TIMER:
       {
         return {
           ...state,
-          secondsRemaining: 0,
-          formattedSecondsRemaining: '00:00',
-          activeTask: null,
-          tasks: state.tasks.map(task => {
-            // Verificando se a task ativa é a mesma task que foi concluida, se sim, adicionar a data que foi feita a conclusão da task.
-            if (state.activeTask && state.activeTask?.id === task.id) {
-              return { ...task, completeDate: Date.now() };
-            }
-
-            // Caso contrário retorna a task normalmente sem alterações.
-            return task;
-          }),
+          config: {
+            workCycle: action.payload.workCycle,
+            breakShortCycle: action.payload.breakShortCycle,
+            breakLongCycle: action.payload.breakLongCycle,
+          },
         };
       }
 
