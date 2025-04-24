@@ -1,10 +1,22 @@
+import { useEffect } from 'react';
+
 import { Heading } from 'lucide-react';
+
+import { MainTemplates } from '../../templates/MainTemplates';
+
 import { Container } from '../../components/Container';
 import { GenericHtml } from '../../components/GenericHtml';
-import { MainTemplates } from '../../templates/MainTemplates';
 import { LinkRouter } from '../../components/LinkRouter';
 
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+
 export function About() {
+  const { state } = useTaskContext();
+
+  useEffect(() => {
+    document.title = `${state.formattedSecondsRemaining} - Ententa a Técnica do Pomodoro `;
+  }, [state]);
+
   return (
     <MainTemplates>
       <Container>

@@ -1,17 +1,25 @@
-import { MainTemplates } from '../../templates/MainTemplates';
-import { Container } from '../../components/Container';
+import { useEffect, useRef } from 'react';
 
+import { MainTemplates } from '../../templates/MainTemplates';
+
+import { Container } from '../../components/Container';
 import { Heading } from '../../components/Heading';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
 
 import { SaveAllIcon } from 'lucide-react';
-import { useRef } from 'react';
-import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+
 import { showMessages } from '../../adapters/showMessages';
 
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
+import { TaskActionType } from '../../contexts/TaskContext/taskAction';
+
 export function Settings() {
-  const { state } = useTaskContext();
+  const { state, dispatch } = useTaskContext();
+
+  useEffect(() => {
+    document.title = `${state.formattedSecondsRemaining} - Configurações `;
+  }, [state]);
 
   const workCycleInput = useRef<HTMLInputElement>(null);
   const breakShortCycleInput = useRef<HTMLInputElement>(null);
@@ -21,31 +29,27 @@ export function Settings() {
     showMessages.dismiss();
     e.preventDefault();
 
-    const workCycleData = Number(workCycleInput.current?.value);
-    const breakShortCycleData = Number(breakShortCycleInput.current?.value);
-    const breakLongCycleData = Number(breakLongCycleInput.current?.value);
+    const workCycle = Number(workCycleInput.current?.value);
+    const breakShortCycle = Number(breakShortCycleInput.current?.value);
+    const breakLongCycle = Number(breakLongCycleInput.current?.value);
 
     const erroFieldsInput = [];
 
-    if (
-      isNaN(workCycleData) ||
-      isNaN(breakShortCycleData) ||
-      isNaN(breakLongCycleData)
-    ) {
+    if (isNaN(workCycle) || isNaN(breakShortCycle) || isNaN(breakLongCycle)) {
       erroFieldsInput.push('Dígite apenas NÚMEROS em TODOS os campos.');
     }
 
-    if (workCycleData < 1 && workCycleData > 60) {
+    if (workCycle < 1 && workCycle > 60) {
       erroFieldsInput.push(
         'Dígite valores entre 1min e 60min para manter o foco.',
       );
     }
-    if (breakShortCycleData < 1 && breakShortCycleData > 12) {
+    if (breakShortCycle < 1 && breakShortCycle > 12) {
       erroFieldsInput.push(
         'Dígite valores entre 1min e 12min para descansos curtos.',
       );
     }
-    if (breakLongCycleData < 1 && breakLongCycleData > 20) {
+    if (breakLongCycle < 1 && breakLongCycle > 20) {
       erroFieldsInput.push(
         'Dígite valores entre 1min e 20min para descansos longos.',
       );
@@ -55,10 +59,15 @@ export function Settings() {
       erroFieldsInput.forEach(error => {
         showMessages.error(error);
       });
+
+      return;
     }
 
-    console.log(workCycleData, breakShortCycleData, breakLongCycleData);
-    console.log('Salvar');
+    console.log('cheguei na função');
+    dispatch({
+      type: TaskActionType.CONFIG_TIMER,
+      payload: { workCycle, breakShortCycle, breakLongCycle },
+    });
   }
 
   return (

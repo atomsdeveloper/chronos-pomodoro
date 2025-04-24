@@ -1,10 +1,21 @@
+import { useEffect } from 'react';
+
+import { MainTemplates } from '../../templates/MainTemplates';
+
 import { Container } from '../../components/Container';
 import { GenericHtml } from '../../components/GenericHtml';
 import { Heading } from '../../components/Heading';
 import { LinkRouter } from '../../components/LinkRouter';
-import { MainTemplates } from '../../templates/MainTemplates';
+
+import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 
 export function NotFound() {
+  const { state } = useTaskContext();
+
+  useEffect(() => {
+    document.title = `${state.formattedSecondsRemaining} - Página não encontrada `;
+  }, [state]);
+
   return (
     <MainTemplates>
       <Container>
