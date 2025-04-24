@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { Button } from '../Button';
 import { Container } from '../Container';
 import { Heading } from '../Heading';
@@ -9,14 +11,25 @@ import { useTaskContext } from '../../contexts/TaskContext/useTaskContext';
 import { TaskActionType } from '../../contexts/TaskContext/taskAction';
 import { checkHasTasks } from '../../contexts/TaskContext/checkHasTasks';
 
+import { showMessages } from '../../adapters/showMessages';
+
 export function HeadingHistory() {
   const { state, dispatch } = useTaskContext();
   const hasTasks = checkHasTasks(state); // Checa se tem task
 
-  function handleResetTasks() {
-    if (!confirm()) return;
+  // Remover 'toast' ao sair do componente com com 'componentUnmount'
+  useEffect(() => {
+    return () => {
+      showMessages.dismiss();
+    };
+  }, []);
 
-    dispatch({ type: TaskActionType.RESET_STATE });
+  function handleResetTasks() {
+    showMessages.dismiss();
+
+    showMessages.confirm('Tem certeza', confirm => {
+      if (confirm) dispatch({ type: TaskActionType.RESET_STATE });
+    });
   }
   return (
     <Container>
