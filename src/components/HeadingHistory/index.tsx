@@ -42,7 +42,7 @@ export function HeadingHistory() {
               color='red'
               aria-label='Apagar todo histórico'
               title='Apagar histórico'
-              onClick={() => handleResetTasks}
+              onClick={() => handleResetTasks()}
             />
           </span>
         )}
