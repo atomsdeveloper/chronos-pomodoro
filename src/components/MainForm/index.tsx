@@ -1,9 +1,6 @@
 // import { useState } from 'react';
 import { useRef } from 'react';
 
-// Styles
-import styles from './sytles.module.css';
-
 // Icons
 import { PlayCircleIcon, StopCircleIcon } from 'lucide-react';
 
@@ -81,33 +78,35 @@ export function MainForm() {
   }
 
   return (
-    <form className={styles.formContainer} action='' onSubmit={handleStartTask}>
-      <div className={styles.formRow}>
-        <Input
-          id='input'
-          label='Task'
-          type='text'
-          title='Descrição da tarefa'
-          ref={taskRef}
-          disabled={!!state.activeTask}
-          defaultValue={lastTaskName}
-          // value={taskValue}
-          // onChange={event => setTaskValue(event.target.value)}
-        />
-      </div>
+    <form action='' onSubmit={handleStartTask}>
+      <Input
+        id='input'
+        label='Task'
+        type='text'
+        title='Descrição da tarefa'
+        ref={taskRef}
+        placeholder='Dígite aqui a sua tarefa.'
+        disabled={!!state.activeTask}
+        defaultValue={lastTaskName}
+        // value={taskValue}
+        // onChange={event => setTaskValue(event.target.value)}
+      />
 
-      <div className={styles.formRow}>
+      <div
+        className='formRow'
+        style={{ paddingTop: '2.8rem', paddingBottom: '2.8rem' }}
+      >
         <Tips />
       </div>
 
       {/* Mostrando os ciclos somente se existir ao menos um ciclo. */}
       {state.currentCycle > 0 && (
-        <div className={styles.formRow}>
+        <>
           <Cycles />
-        </div>
+        </>
       )}
 
-      <div className={styles.formRow}>
+      <div className='formRow'>
         {!state.activeTask ? (
           <Button
             key='start'
